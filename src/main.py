@@ -1,11 +1,12 @@
 from api import Api
 import sys
+import my_parser
 
 
 def get_products():
     """Get products from iSales"""
-    payload = {'username': '1c_server_tdshkurenk',
-               'password': '26208',
+    payload = {'username': USER,
+               'password': PASSW,
                'dtFrom': '20170123',
                'dtTo': '20170126'}
 
@@ -27,7 +28,16 @@ def get_products():
         sys.exit(1)
 
 API = None
+HOST = 'https://www.isales.pepsico.com'
+USER = ''
+PASSW = ''
 
-API = Api('https://www.isales.pepsico.com', '1c_server_tdshkurenk', '26208')
+arg_parser = my_parser.create_parser_argv()
+namespace = arg_parser.parse_args(sys.argv[1:])
+
+USER = str(namespace.user).strip()
+PASSW = str(namespace.passw).strip()
+
+API = Api(HOST, USER, PASSW)
 
 get_products()
